@@ -16,9 +16,21 @@ class Display:
 
         self.screen = pygame.display.set_mode((boardWidth, boardHeight)) #initializes screen
         pygame.display.set_caption('Battleship!') #puts caption on top
+        self.screen.fill((47, 62, 216))
+
+    def screenFill(self):
+
+        for y in range(8):
+            for x in range(8):
+                square = pygame.Rect(50 + x*self.cell_size, y*self.cell_size, self.cell_size, self.cell_size)
+                pygame.draw.rect(self.screen, (255, 255, 255, 255), square, 1)
 
 
-WHITE = (255, 255, 255, 255)
+        buffer = self.margin * 2 + self.board_size * self.cell_size
+        for y in range(8):
+            for x in range(8):
+                square = pygame.Rect(50 + x*self.cell_size, y*self.cell_size + buffer, self.cell_size, self.cell_size)
+                pygame.draw.rect(self.screen, (255, 255, 255, 255), square, 1)
 
 
 
@@ -26,23 +38,11 @@ WHITE = (255, 255, 255, 255)
 #This is where I am teaching myself pygame
 #Don't pay much mind
 
-backgroundColor = (47, 62, 216)
-width = 450
-height = 900
-
-screen = pygame.display.set_mode((width, height))
-
-pygame.display.set_caption('Battleship!')
-screen.fill(backgroundColor)
-
-blockSize = 50
-for y in range(8):
-    for x in range(8):
-        square = pygame.Rect(50 + x*blockSize, y*blockSize, blockSize, blockSize)
-        pygame.draw.rect(screen, WHITE, square, 1)
 
 
 d = Display()
+d.screenFill()
+
 
 running = True
 while running:
