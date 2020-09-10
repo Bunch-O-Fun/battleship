@@ -2,7 +2,7 @@ import pygame
 
 class Display:
 
-    def __init__(self, cell_size = 50, board_size = 8, margin = 25):
+    def __init__(self, cell_size = 30, board_size = 8, margin = 15):
         self.board_size = board_size
         self.cell_size = cell_size
         self.margin = margin
@@ -12,7 +12,7 @@ class Display:
         self.font = pygame.font.SysFont("Comic Sans", 16)
 
         boardWidth = self.cell_size * board_size + 2 * margin
-        boardHeight = self.cell_size * 2 * board_size + 3 * margin + 25
+        boardHeight = self.cell_size * 2 * board_size + 3 * margin + 15
 
         self.screen = pygame.display.set_mode((boardWidth, boardHeight)) #initializes screen
         pygame.display.set_caption('Battleship!') #puts caption on top
@@ -24,7 +24,7 @@ class Display:
         xCoordinates = ["A", "B", "C", "D", "E", "F", "G", "H"]
         yCoordinates = ["8","7","6","5","4","3","2","1", " "]
 
-        font = pygame.font.SysFont('freesansbold.ttf', 50)
+        font = pygame.font.SysFont('freesansbold.ttf', 30)
 
         for y in range(9):
             for x in range(9):
