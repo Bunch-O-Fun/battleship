@@ -20,46 +20,37 @@ class Display:
 
     def screenFill(self):
 
-        xCoordinates = ["A", "B", "C", "D", "E", "F", "G", "H"]
-        yCoordinates = ["8","7","6","5","4","3","2","1", " "]
-
-        font = pygame.font.SysFont('freesansbold.ttf', 30)
+        water = (0, 0, 255) #blue
+        ship = (128, 128, 128) #gray
+        miss = (255, 255, 255) #white
+        border = (255, 255, 255)
+        hit =  (255, 0, 0) #red
+        buffer = 0
 
         for y in range(9):
             for x in range(9):
-                if x == 0:
+                if x == 0 or y == 8:
 
-                    square = pygame.Rect(x*self.cell_size, y*self.cell_size, self.cell_size, self.cell_size)
-                    pygame.draw.rect(self.screen, (255, 255, 255, 255), square, 0)
-                    
-                elif y == 8:
-                    square = pygame.Rect(x*self.cell_size, y*self.cell_size, self.cell_size, self.cell_size)
-                    pygame.draw.rect(self.screen, (255, 255, 255, 255), square, 0)
+                    self.drawSquare(x, y, border, buffer)
 
                 else:
-                    square = pygame.Rect(x*self.cell_size, y*self.cell_size, self.cell_size, self.cell_size)
-                    pygame.draw.rect(self.screen, (255, 255, 255, 255), square, 1)
 
-
+                    self.drawSquare(x, y, water, buffer)
 
         buffer = self.margin * 2 + self.board_size * self.cell_size
         for y in range(9):
             for x in range(9):
 
-                if x == 0:
-                    square = pygame.Rect(x*self.cell_size, y*self.cell_size + buffer, self.cell_size, self.cell_size)
-                    pygame.draw.rect(self.screen, (255, 255, 255, 255), square, 0)
-
-                if y == 8:
-                    square = pygame.Rect(x*self.cell_size, y*self.cell_size + buffer, self.cell_size, self.cell_size)
-                    pygame.draw.rect(self.screen, (255, 255, 255, 255), square, 0)
-
+                if x == 0 or y == 8:
+                    self.drawSquare(x, y, border, buffer)
                 else:
-                    square = pygame.Rect(x*self.cell_size, y*self.cell_size + buffer, self.cell_size, self.cell_size)
-                    pygame.draw.rect(self.screen, (255, 255, 255, 255), square, 1)
+                    self.drawSquare(x, y, water, buffer)
 
         self.fillCoordinates()
 
+    def drawSquare(self, x, y, color, buffer):
+        square = pygame.Rect(x*self.cell_size, y*self.cell_size + buffer, self.cell_size, self.cell_size)
+        pygame.draw.rect(self.screen, color, square, 0)
 
     def fillCoordinates(self):
 
@@ -107,7 +98,6 @@ class Display:
             self.screen.blit(text, textRect)
             left = left + 30
 
-
     def result(self, winner):
 
         black = (0,0,0)
@@ -126,7 +116,15 @@ class Display:
             textRect.center = (self.boardWidth // 2, self.boardHeight // 2)
             self.screen.blit(text, textRect)
 
-
+    def getInput(self):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT: #user wnats to quit the game
+                Display.close()
+            elif event.type == pygame.MOUSEBUTTONDOWN: # when user mouse buttons down
+                pos = pygame.mouse.get_pos()
+                column = pos[0] // (width + margin)
+                row = pos[1] // (height + margin)
+                self.grid[row][column] = 1 #this indicates a pressed/hit square
 
 
 #Testing environtment for code
@@ -137,7 +135,6 @@ class Display:
 
 d = Display()
 d.screenFill()
-#d.fillCoordinates()
 
 
 running = True
