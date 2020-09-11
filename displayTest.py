@@ -11,10 +11,10 @@ class Display:
         pygame.font.init() #initializes the pygame font
         self.font = pygame.font.SysFont("Comic Sans", 16)
 
-        boardWidth = self.cell_size * board_size + 2 * margin
-        boardHeight = self.cell_size * 2 * board_size + 3 * margin + 15
+        self.boardWidth = self.cell_size * board_size + 2 * margin
+        self.boardHeight = self.cell_size * 2 * board_size + 3 * margin + 15
 
-        self.screen = pygame.display.set_mode((boardWidth, boardHeight)) #initializes screen
+        self.screen = pygame.display.set_mode((self.boardWidth, self.boardHeight)) #initializes screen
         pygame.display.set_caption('Battleship!') #puts caption on top
         self.screen.fill((47, 62, 216))
 
@@ -66,7 +66,23 @@ class Display:
                     pygame.draw.rect(self.screen, (255, 255, 255, 255), square, 1)
 
 
+    def result(self, winner):
 
+        black = (0,0,0)
+        red = (255, 0, 0)
+        font = pygame.font.Font('freesansbold.ttf', 50)
+
+        if winner == True:
+            text = font.render('You Win!', True, black, red)
+            textRect = text.get_rect()
+            textRect.center = (self.boardWidth // 2, self.boardHeight // 2)
+            self.screen.blit(text, textRect)
+
+        else:
+            text = font.render('You Lose!', True, black, red)
+            textRect = text.get_rect()
+            textRect.center = (self.boardWidth // 2, self.boardHeight // 2)
+            self.screen.blit(text, textRect)
 
 
 #Testing environtment for code
@@ -77,7 +93,7 @@ class Display:
 
 d = Display()
 d.screenFill()
-
+d.result(False)
 
 running = True
 while running:
