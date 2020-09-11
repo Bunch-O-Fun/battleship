@@ -20,7 +20,6 @@ class Display:
 
     def screenFill(self):
 
-
         xCoordinates = ["A", "B", "C", "D", "E", "F", "G", "H"]
         yCoordinates = ["8","7","6","5","4","3","2","1", " "]
 
@@ -31,10 +30,10 @@ class Display:
                 if x == 0:
 
                     square = pygame.Rect(x*self.cell_size, y*self.cell_size, self.cell_size, self.cell_size)
-                    text = font.render(yCoordinates[y], True, (0,0,0))
-                    textRect = text.get_rect()
-                    square.clamp(textRect)
-                    self.screen.blit(text, textRect)
+                    #text = font.render(yCoordinates[y], True, (0,0,0))
+                    #textRect = text.get_rect()
+                    #square.clamp(textRect)
+                    #self.screen.blit(text, textRect)
                     pygame.draw.rect(self.screen, (255, 255, 255, 255), square, 0)
 
 
@@ -65,6 +64,55 @@ class Display:
                     square = pygame.Rect(x*self.cell_size, y*self.cell_size + buffer, self.cell_size, self.cell_size)
                     pygame.draw.rect(self.screen, (255, 255, 255, 255), square, 1)
 
+        self.fillCoordinates()
+
+    
+    def fillCoordinates(self):
+
+        xCoordinates = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
+        yCoordinates = ['8','7','6','5','4','3','2','1', ' ']
+        bottom = 30
+        left = 35
+
+        black = (0,0,0)
+        white = (255, 255, 255)
+        font = pygame.font.Font('freesansbold.ttf', 20)
+
+        #for top board Y coordinates
+        for y in range(8):
+            text = font.render(yCoordinates[y], True, black, white)
+            textRect = text.get_rect()
+            textRect.bottom = bottom
+            textRect.right = 30
+            self.screen.blit(text, textRect)
+            bottom = bottom + 30
+        #for top board X coordinates
+        for x in range(8):
+            text = font.render(xCoordinates[x], True, black, white)
+            textRect = text.get_rect()
+            textRect.top = 240
+            textRect.left = left
+            self.screen.blit(text, textRect)
+            left = left + 30
+
+        #for top board Y coordinates
+        for y in range(8):
+            text = font.render(yCoordinates[y], True, black, white)
+            textRect = text.get_rect()
+            textRect.bottom = bottom + 30
+            textRect.right = 30
+            self.screen.blit(text, textRect)
+            bottom = bottom + 30
+
+        left = 35 #reset left coordinate
+        for x in range(8):
+            text = font.render(xCoordinates[x], True, black, white)
+            textRect = text.get_rect()
+            textRect.top = 510
+            textRect.left = left
+            self.screen.blit(text, textRect)
+            left = left + 30
+
 
     def result(self, winner):
 
@@ -85,6 +133,7 @@ class Display:
             self.screen.blit(text, textRect)
 
 
+
 #Testing environtment for code
 #This is where I am teaching myself pygame
 #Don't pay much mind
@@ -93,7 +142,8 @@ class Display:
 
 d = Display()
 d.screenFill()
-d.result(False)
+#d.fillCoordinates()
+
 
 running = True
 while running:
