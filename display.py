@@ -55,19 +55,19 @@ class Display:
                     #pygame.draw.rect(self.screen, white, rect, 1)
                     gridtop[y].append([rect])
 
-        for event in pygame.event.get():
-            if event.type ==pygame.MOUSEBUTTONDOWN:
-                pos = pygame.mouse.get_pos()
-                x = pos[0] // (self.screen_width + self.margin)
-                y = pos[1] // (self.screen_height + self.margin)
-                gridtop[y][x] = 1 # this indicates a pressed/hit square
+
+        #x = xInput // (self.screen_width + self.margin)
+        #y = yInput // (self.screen_height + self.margin)
+        gridtop[y][x] = 1 # this indicates a pressed/hit square
+        #print(x)
+        #print(y)
 
         for y in range (9):
             for x in range(9):
                 color = ocean
                 if gridtop[y][x] == 1:
                     color = red
-                pygame.draw.rect(mygame.screen, color, rect, 1)
+                    pygame.draw.rect(mygame.screen, color, rect, 0)
 
 #---------------------------------- BOTTOM GRID --------------------------------------------#
         buffer = self.margin / 30 + self.board_size * self.cell_size
@@ -121,7 +121,12 @@ class Display:
             self.screen.blit(text, textRect)
             left = left + 41 # distance between characters
 
-
+    def changeTileColor(self, xInput,yInput):
+        y = yInput % (self.board_size*self.cell_size+self.margin)
+        x = (xInput - self.margin) // self.cell_size
+        y = (y - self.margin) // self.cell_size
+        print(x)
+        print(y)
 
 mygame = Display()
 mygame.visual()
@@ -133,5 +138,13 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False # the user wants to quit the game
+        if event.type ==pygame.MOUSEBUTTONDOWN:
+            pos = pygame.mouse.get_pos()
+            x = pos[0]
+            y = pos[1]
+            print(pos)
+            mygame.changeTileColor(x,y)
+
+
 
 pygame.quit()
