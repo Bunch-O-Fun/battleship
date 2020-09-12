@@ -1,5 +1,6 @@
 import pygame
 
+
 class Display:
 
     def __init__(self, cell_size = 30, board_size = 8, margin = 15):
@@ -12,7 +13,7 @@ class Display:
         self.font = pygame.font.SysFont("Comic Sans", 16)
 
         self.boardWidth = self.cell_size * board_size + 2 * margin
-        self.boardHeight = self.cell_size * 2 * board_size + 3 * margin + 15
+        self.boardHeight = self.cell_size * 2 * board_size + 3 * margin
 
         self.screen = pygame.display.set_mode((self.boardWidth, self.boardHeight)) #initializes screen
         pygame.display.set_caption('Battleship!') #puts caption on top
@@ -48,6 +49,7 @@ class Display:
 
         self.fillCoordinates()
 
+
     def drawSquare(self, x, y, color, buffer):
         square = pygame.Rect(x*self.cell_size, y*self.cell_size + buffer, self.cell_size, self.cell_size)
         pygame.draw.rect(self.screen, color, square, 0)
@@ -57,7 +59,7 @@ class Display:
         xCoordinates = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
         yCoordinates = ['8','7','6','5','4','3','2','1', ' ']
         bottom = 30
-        left = 35
+        left = 30
 
         black = (0,0,0)
         white = (255, 255, 255)
@@ -126,16 +128,46 @@ class Display:
                 row = pos[1] // (height + margin)
                 self.grid[row][column] = 1 #this indicates a pressed/hit square
 
+    def askUserCoordinates(self):
+        validXCoordinate = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I']
+        validYCoordinate = ['1','2','3','4','5','6','7','8','9']
+
+        x = input("Enter an X coordinate (Letters A-I):")
+        while not x in validXCoordinate:
+            x = input("Error! Enter an X coordinate (Letters A-I):")
+
+        y = input("Enter an Y coordinate (Numbers 1-9):")
+        while not y in validYCoordinate:
+            y = input("Error! Enter an Y coordinate (Letters 1-9):")
+
+        (x, y) = self.turnCoordinatesIntoInts(x, y)
+
+        return x, y
+
+    #helper function of askUserCoordinates
+    def turnCoordinatesIntoInts(self, x, y):
+        xCoordinates = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I']
+
+
+        yInt = int(y)
+
+        for i in range(9):
+            if xCoordinates[i] == x:
+                xInt = i+1
+                break
+
+        return xInt, yInt
+
 
 #Testing environtment for code
 #This is where I am teaching myself pygame
 #Don't pay much mind
 
-
-
 d = Display()
 d.screenFill()
+(x,y) = d.askUserCoordinates()
 
+print(x, y)
 
 running = True
 while running:
@@ -143,5 +175,12 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+        if event.type ==pygame.MOUSEBUTTONDOWN:
+            pos = pygame.mouse.get_pos()
+            x = pos[0]
+            y = pos[1]
+            print(pos)
+            d.changeTileColor(x,y)
+
 
 pygame.quit()
